@@ -1,0 +1,53 @@
+[ECSE321] (12F) Assignments
+
+This repository is part of my assigments given at McGill University.
+ _______________________________________________________________
+|								|
+|Assignment 1:		Due date: 14 Sep, 2012		10 marks|
+|_______________________________________________________________|
+
+Temperature is usually measured either in Fahrenheit (°F) or Celsius (°C). These two units are related as follows:
+
+	[°F] = [°C] × 9/5 + 32
+
+The scientific unit for measuring temperature is Kelvin (K), which is related to Celsius as follows:
+
+	[K] = [°C] + 273.15
+
+Write a Java class Temperature that provides the following API:
+
+	{SEE CODE}
+
+Complete the above code to implement the missing functions. The public interface of the class must be as specified above. You may add any additional private or protected methods.
+See this article [http://www.technofundo.com/tech/java/equalhash.html] for details on how to consistently override equals() and hashCode() functions.
+
+
+ _______________________________________________________________
+|								|
+|Assignment 2:		Due date: 24 Sep, 2012		10 marks|
+|_______________________________________________________________|
+
+1. Create a private repository called temperature on Github. Add adityam and ktsianos as collaborators.
+2. Add your submission for the first assignment to this git repository. Tag your submitted version as assignment-1 using
+
+	git tag assignment-1
+
+3. Develop test data for unit testing the Temperature class that you wrote in Assignment 1. You must test the following:
+
+3.1. Check the getUnits() and getValue() functions.
+
+3.2. Check the changeUnits() function for all six possible conversions between Celsius, Fahrenheit, and Kelvin.
+
+3.3. Check that the equals() function is working correctly. In particular, check that calling the equals() function does not change the return value of getUnits() function. Check for all possible combinations.
+Explain your reasoning for choosing the particular test data. Note that you may have to choose multiple test data for each of the above test cases.
+
+4. Complete the following skeleton file TemperatureTest.java to unit test the Temperature class.
+
+5. Note that if while running the above test cases you find bugs in your earlier code, you are allowed to modify the Temperature class appropriately.
+
+6. Tag your final code with tag assignment-2 and submit the Git URL of your repository. The instructor and the TA should be able to
+
+	git clone URL
+
+to pull your repository.
+
