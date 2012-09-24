@@ -116,9 +116,10 @@ public class Temperature implements Comparable<Temperature> {
       double iTemp = this.value*100;
       
       int iTemp2 = (int) iTemp;
-      iTemp2 = iTemp2/100;
+      iTemp = (double) iTemp2;
+      iTemp = iTemp/100;
       
-      String string = Double.toString(iTemp2);
+      String string = Double.toString(iTemp);
       
       if (this.units == Units.CELCIUS) {string += " °C";}
       else if (this.units == Units.FAHRENHEIT) {string += " °F";}
