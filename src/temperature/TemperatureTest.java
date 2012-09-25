@@ -11,44 +11,55 @@ public class TemperatureTest {
     
     @BeforeClass
     public static void beforeClass(){
-    	System.out.println("Starting the Test module...");
+    	System.out.println("Starting the Test module...\n");
+    }
+    
+    @AfterClass
+    public static void afterClass(){
+    	System.out.println("\nTest module finished !!!\n");
     }
     
     /**
-     * Test of getUnits method, of class Temperature.
+     * Tests getUnits method of class Temperature.
+     * We create three objects temperature, with different units.
+     * We then check back if the returned value is correct.
      */
     @Test
     public void testGetUnits() {
         System.out.println("- getUnits function");
-        Temperature instance = new Temperature(0.0, Units.CELCIUS);
-        Units result = instance.getUnits();
+        
+        Temperature celcius = new Temperature(0.0, Units.CELCIUS);
+        Temperature fahrenheit = new Temperature(0.0, Units.FAHRENHEIT);
+        Temperature kelvin = new Temperature(0.0, Units.KELVIN);
         
         try {
-        	
-        	assertEquals(Units.CELCIUS, result);
+        	assertEquals(Units.CELCIUS, celcius.getUnits());
+        	assertEquals(Units.FAHRENHEIT, fahrenheit.getUnits());
+        	assertEquals(Units.KELVIN, kelvin.getUnits());
         	
         } catch (AssertionError e){
         	
         	fail("getUnits of class Temperature is f***ing up bro.");
         }
-
-        //
     }
     
     /**
      * Test of getValue method, of class Temperature.
-     * It only checks if the value set is the one returned.
+     * It only checks if the value set at the beginning is the one returned.
      */
     @Test
     public void testGetValue() {
-        System.out.println("getValue");
-        Temperature instance = new Temperature(40.999, Units.CELCIUS);
-        double expResult = 40.999;
-        double result = instance.getValue();
+        System.out.println("- getValue function");
+        
+        Temperature positive = new Temperature(40.999, Units.CELCIUS);
+        Temperature negative = new Temperature(-200, Units.FAHRENHEIT);
+        Temperature zero     = new Temperature(0.0, Units.KELVIN);
         
         try {
         	
-            assertEquals(expResult, result, 0.0);
+            assertEquals(40.999, positive.getValue(), 0.0);
+            assertEquals(-200  , negative.getValue(), 0.0);
+            assertEquals(0.0   ,     zero.getValue(), 0.0);
 
         } catch (AssertionError e){
         	
@@ -57,85 +68,67 @@ public class TemperatureTest {
     }
     
     /**
-     * Test of the Constructor, and thus conversion
+     * Tests the Constructor, and thus the conversion method
      * of class Temperature.
      */
     @Test
     public void testChangeUnits(){
-        System.out.println("Testing the Conversion... ");
+        System.out.println("- changeUnits");
         
         try {
         	
-	        assertTrue(testConversion(0,Units.CELCIUS,0,32,273.15));
-	        assertTrue(testConversion(32,Units.FAHRENHEIT,0,32,273.15));
-	        assertTrue(testConversion(273.15,Units.KELVIN,0,32,273.15));
+	        assertTrue(testConversion(0,      Units.CELCIUS,    0, 32, 273.15));
+	        assertTrue(testConversion(32,     Units.FAHRENHEIT, 0, 32, 273.15));
+	        assertTrue(testConversion(273.15, Units.KELVIN,     0, 32, 273.15));
         
         } catch (AssertionError e) {
             
         	fail("The Constructor of class Temperature is acting weird...");
         }
     }
-
+    
     /**
-     * Test of toString method, of class Temperature.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        Temperature instance = new Temperature(32.112, Units.FAHRENHEIT);
-        String expResult = "32.11 °F";
-        String result = instance.toString();
-        
-        display(instance);
-        assertEquals(expResult, result);
-
-        //fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of compareTo method, of class Temperature.
-     */
-    @Test
-    public void testCompareTo() {
-        
-        System.out.println("\nTesting Comparison... ");
-        
-        assertTrue(testComparison(Units.CELCIUS));
-        assertTrue(testComparison(Units.FAHRENHEIT));
-        assertTrue(testComparison(Units.KELVIN));  
-       
-        //fail("Yo man, teach your CompareTo method of class Temperature how to compare properly...");
-    }
-
-    /**
-     * Test of equals method, of class Temperature.
+     * Tests the equals method of class Temperature.
+     * we are testing for both equality and inequality,
+     * we are trying a == b, and the other way around,
+     * b == a
+     * 
+     * By structure,
+     * there is no way the Temperature class can modify the unit,
+     * or value of the object.
+     * Thus, there is no need to check for that error.
      */
     @Test
     public void testEquals() {
-        System.out.println("equals");
+    	
+        System.out.println("- equals");
         
         Temperature a = new Temperature(0, Units.CELCIUS);
-        Temperature aa = new Temperature(32, Units.FAHRENHEIT);
         Temperature b = new Temperature(0, Units.KELVIN);
+        Temperature c = new Temperature(32, Units.FAHRENHEIT);
         
-        // Tests for equality and inequality
-        assertTrue(a.equals(aa) && aa.equals(a) && !b.equals(a) && !a.equals(b));
-        
-        //fail("Equals method of class Temperature does not know what equals means anymore...");
+        try {
+        	
+        	assertTrue(a.equals(c) && c.equals(a) && !b.equals(a) && !a.equals(b));
+        	
+        } catch (AssertionError e){
+        	
+        	fail("Equals method of class Temperature does not know what equals means anymore...");
+        }
     }
 
-    /**
-     * Test of hashCode method, of class Temperature.
-     */
-    @Test
-    public void testHashCode() {
-        /**
-         * The hashCode test is already performed in the equals test.
-         * (because it uses hashCode to determine equality)
-         */
-    }
     
-    public static boolean testConversion(double value, Units units, double C, double F, double K)
+    /**
+     * Allows us to test converting temperature only changing the parameters.
+     * 
+     * @param value
+     * @param units
+     * @param C
+     * @param F
+     * @param K
+     * @return
+     */
+    private static boolean testConversion(double value, Units units, double C, double F, double K)
     {
         Temperature temp = new Temperature(value, units);
         
@@ -151,32 +144,42 @@ public class TemperatureTest {
         return celcius && kelvin && fahrenheit;
     }
     
-    public static boolean testComparison(Units units){
-        
-        Temperature a = new Temperature(1, units);
-        Temperature aa = new Temperature(1, units);
-        Temperature b = new Temperature(16000000, units);
-        Temperature c = new Temperature(-200, units);
-        Temperature d = new Temperature(0, units);
-        
-        // Tests equality
-        boolean equal = a.compareTo(aa) == 0 && aa.compareTo(a) == 0;
-        
-        // Tests less operator
-        boolean less = a.compareTo(b) == -1 && c.compareTo(d) == -1;
-
-        // Tests more operator
-        boolean more = b.compareTo(a) == 1 && d.compareTo(c) == 1;
-      
-        return equal && less && more;
-    }
     
-    public static void display(Temperature temp){
+    
+    /**
+     * Prints a text version of the Temperature Object.
+     * Used to help debugging the Temperature class.
+     * 
+     * @param temp
+     */
+    private static void displayTemperature(Temperature temp){
         
         System.out.println("Object Temperature:");
         System.out.println("Value: " + temp.getValue() + "\tString: " + temp.toString());
         System.out.println("celcius: " + temp.celcius);
         System.out.println("kelvin: " + temp.kelvin);
         System.out.println("fahrenheit: " + temp.fahrenheit);
+    }
+    
+    /**
+     * Test of toString method, of class Temperature.
+     * Not really used, only has a debugging purpose.
+     */
+    @Deprecated
+    @Test
+    public void testToString() {
+        System.out.println("- toString ");
+        Temperature instance = new Temperature(32.112, Units.FAHRENHEIT);
+        String expResult = "32.11 °F";
+        String result = instance.toString();
+        
+        try {
+        	
+        	assertEquals(expResult, result);
+        	
+        } catch (AssertionError e){
+        	
+        	fail("Meuh, you don't really care if this test fails, it's not graded !!");
+        }
     }
 }
