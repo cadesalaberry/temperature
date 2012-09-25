@@ -32,16 +32,42 @@ See this article [http://www.technofundo.com/tech/java/equalhash.html] for detai
 
 	git tag assignment-1
 
-3. Develop test data for unit testing the Temperature class that you wrote in Assignment 1. You must test the following:
+3. Develop test data for unit testing the Temperature class that you wrote in Assignment 1. Explain your reasoning for choosing the particular test data. Note that you may have to choose multiple test data for each of the above test cases.
+You must test the following:
 
 3.1. Check the getUnits() and getValue() functions.
+	
+	We don't need a super complicated test for those methods;
+	getUnits() is tested for three different temperature units
+	(namely, Celcius, Fahrenheit, and Kelvin),
+	checking if the value returned is identical to the input value.
+	
+	For getValue(), the test tries to record:
+		- a positive value,
+		- a negative value,
+		- a zero.
+	
+	If the input value is the same as the returned value, the test succeeds.
 
 3.2. Check the changeUnits() function for all six possible conversions between Celsius, Fahrenheit, and Kelvin.
+	
+	For the conversion, I crafted a special method as a shortcut.
+	testConversion() is called three times using one of the three temperature unit
+	everytime it is run.
+	It also checks converting from and to the same unit (ie. Celcius to Celcius).
+
 
 3.3. Check that the equals() function is working correctly. In particular, check that calling the equals() function does not change the return value of getUnits() function. Check for all possible combinations.
-Explain your reasoning for choosing the particular test data. Note that you may have to choose multiple test data for each of the above test cases.
+	
+	This test checks for both equality and inequality,
+	and if the equality/inequality is reciprocal (ie. a = b -> b = a).
+	By structure, there is no way the Temperature class can modify the unit,
+	or value of the object. Thus, this error is not caught by the tester.
+
 
 4. Complete the following skeleton file TemperatureTest.java to unit test the Temperature class.
+
+	{SEE CODE}
 
 5. Note that if while running the above test cases you find bugs in your earlier code, you are allowed to modify the Temperature class appropriately.
 
